@@ -23,7 +23,8 @@ def environment_factory():
 def perform_submission():
     env_values = environment_factory()
     chrome_options = Options()
-    # chrome_options.add_argument("--headless")
+    if os.environ.get("HEADLESS", False):
+        chrome_options.add_argument("--headless")
     driver = Chrome(executable_path=env_values["executable_path"], options=chrome_options)
     url = "https://app.pers.ncku.edu.tw/ncov/index.php?auth"
     # launch page
@@ -42,7 +43,7 @@ def perform_submission():
     driver.find_element(**WebFormElement.FOOTPRINT).click()
     driver.find_element(**WebFormElement.SCREEN_TEST).click()
     driver.implicitly_wait(5)
-    # driver.find_element(**WebFormElement.SUBMIT_BUTTON).click()
+    driver.find_element(**WebFormElement.SUBMIT_BUTTON).click()
     # end
     driver.close()
     driver.quit()
